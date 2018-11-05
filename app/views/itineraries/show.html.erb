@@ -14,13 +14,5 @@
 
 
 <% if @current_user == @itinerary.user %>
-<h3><%= link_to "Add site", new_itinerary_place_path(@itinerary) %></h3>
-<% end %>
-
-<% if @current_user == @itinerary.user %>
-<h3><%= link_to "Edit Itinerary", edit_itinerary_path(@itinerary) %></h3>
-<% end %>
-
-<% if @current_user == @itinerary.user %>
-<h3><%= link_to "Delete Itinerary", itinerary_path(@itinerary), :method=> :delete %></h3>
+<p><%= link_to "Add places", new_itinerary_place_path(@itinerary) %> <%= link_to "Edit Itinerary", edit_itinerary_path(@itinerary) %> <%= link_to "Delete Itinerary", itinerary_path(@itinerary), :method=> :delete %></p>
 <% end %>
