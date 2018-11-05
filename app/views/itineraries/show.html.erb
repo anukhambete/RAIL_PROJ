@@ -20,3 +20,7 @@
 <% if @current_user == @itinerary.user %>
 <h3><%= link_to "Edit Itinerary", edit_itinerary_path(@itinerary) %></h3>
 <% end %>
+
+<% if @current_user == @itinerary.user %>
+<h3><%= link_to "Delete Itinerary", itinerary_path(@itinerary), :method=> :delete %></h3>
+<% end %>

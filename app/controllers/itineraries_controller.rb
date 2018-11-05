@@ -48,6 +48,21 @@ class ItinerariesController < ApplicationController
     end
   end
 
+  def destroy
+    #binding.pry
+    @user = User.find(session[:user_id])
+    @itinerary = Itinerary.find(params[:id])
+    if @itinerary.user == @user
+      @itinerary.destroy
+      flash[:notice] = "Itinerary deleted."
+      redirect_to itineraries_path
+    else
+      flash[:notice] = "Itinerary cannot be deleted."
+      redirect_to itineraries_path
+    end
+
+  end
+
   private
 
   def itinerary_params
