@@ -26,6 +26,7 @@ class ItinerariesController < ApplicationController
   def show
     #binding.pry
     @itinerary = Itinerary.find(params[:id])
+    @current_user = current_user
   end
 
   private
@@ -36,6 +37,10 @@ class ItinerariesController < ApplicationController
 
   def logged_in?
     !!session[:user_id]
+  end
+
+  def current_user
+    User.find(session[:user_id])
   end
 
 end

@@ -1,0 +1,13 @@
+<h2>Add existing or create new place for itinerary</h2>
+
+<h2><%= @itinerary.name %> by <%= @itinerary.user.username %></h2>
+<h2><%= @itinerary.description %></h2>
+
+<%= form_for @place do |f| %>
+  <%= itinerary_select(@place, @itinerary) %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <br />
+
+  <%= f.submit "Add site" %>
+<% end %>

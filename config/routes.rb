@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
      resources :users
      resources :itineraries
-     resources :places
+     #resources :places
      resources :sessions
 
   # Example resource route with options:
@@ -31,10 +31,9 @@ Rails.application.routes.draw do
   #   end
 
   # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+    resources :itineraries do
+      resources :places, only: [:index, :show, :new, :edit]
+    end
 
   # Example resource route with more complex sub-resources:
   #   resources :products do

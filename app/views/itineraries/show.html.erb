@@ -2,3 +2,7 @@
 
 <h2><%= @itinerary.name %> by <%= @itinerary.user.username %></h2>
 <h2><%= @itinerary.description %></h2>
+
+<% if @current_user == @itinerary.user %>
+<h3><%= link_to "Add site", new_itinerary_place_path(@itinerary) %></h3>
+<% end %>
