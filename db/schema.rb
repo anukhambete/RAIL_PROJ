@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20181105044827) do
     t.integer "user_id"
   end
 
-  create_table "itineraries_places", force: :cascade do |t|
+  create_table "itinerary_places", force: :cascade do |t|
     t.integer "itinerary_id"
     t.integer "place_id"
   end

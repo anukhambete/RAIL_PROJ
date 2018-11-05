@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
   # Example resource route with sub-resources:
     resources :itineraries do
-      resources :places, only: [:index, :show, :new, :edit]
+      resources :places, only: [:index, :show, :new, :edit, :create]
     end
 
   # Example resource route with more complex sub-resources:

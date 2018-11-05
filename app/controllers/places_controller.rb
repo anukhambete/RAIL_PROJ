@@ -1,18 +1,25 @@
 require 'pry'
 class PlacesController < ApplicationController
   def new
-    binding.pry
+    #binding.pry
     if params[:itinerary_id] && !Itinerary.exists?(params[:itinerary_id])
     redirect_to itineraries_path, alert: "Itinerary not found."
     else
-      @place = Place.new(itinerary_id: params[:itinerary_id])
+      @place = Place.new
       @current_user = current_user
       @itinerary = Itinerary.find(params[:itinerary_id])
+      @place.itineraries << @itinerary
     end
   end
 
   def create
-
+    #binding.pry
+    @place = Place.new(place_params)
+    @itinerary = Itinerary.find(params[:itinerary_id])
+    @place.itineraries << @itinerary
+    @place.save
+    #binding.pry
+    redirect_to itinerary_path(@itinerary)
   end
 
   private

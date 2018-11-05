@@ -1,6 +1,6 @@
 class Itinerary < ActiveRecord::Base
-  has_many :places
-  has_many :places, through: :itineraries_places
+  has_many :itinerary_places
+  has_many :places, through: :itinerary_places
   belongs_to :user
   accepts_nested_attributes_for :user
 
