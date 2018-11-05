@@ -1,3 +1,12 @@
 <h1>List of Itineraries</h1>
 
+<ul>
+<% @itineraries.each do |itin| unless @itineraries.empty? %>
+  <li><%= link_to itin.name, itinerary_path(itin) %>
+<% end %>
+<% end %>
+</ul>
+</br></br>
+
+<%= link_to "Create new Itinerary", new_itinerary_path %></br>
 <%= link_to "Log Out", '/logout' %>

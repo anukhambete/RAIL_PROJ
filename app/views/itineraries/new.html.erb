@@ -1,0 +1,29 @@
+<h1>Create a new itinerary</h1>
+
+<%= form_for(@itinerary) do |f| %>
+  <% if @itinerary.errors.any? %>
+      <div id="error_explanation">
+        <h2>There were some errors:</h2>
+
+        <ul>
+          <% @itinerary.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+  <%= hidden_field_tag([:user_id], @user.id) %>
+
+  <div class="field">
+    <%= f.text_field :name, placeholder: "Itinerary name" %>
+  </div></br>
+
+  <div class="field">
+  <%= f.text_area :description, placeholder: "Description" %>
+  </div></br>
+
+  <div class="actions">
+  <%= f.submit %>
+  </div>
+<% end %>
