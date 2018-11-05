@@ -1,3 +1,4 @@
+require 'pry'
 class UsersController < ApplicationController
 
   def new
@@ -5,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    #binding.pry
+    binding.pry
     @user = User.create(user_params)
     @user.save
 
@@ -18,6 +19,15 @@ class UsersController < ApplicationController
       redirect_to new_user_path
     end
 
+  end
+
+  def logout
+    if logged_in?
+      session.clear
+      redirect_to "/"
+    else
+      redirect_to new_session_path
+    end
   end
 
   private
