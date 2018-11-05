@@ -45,6 +45,14 @@ class PlacesController < ApplicationController
     @place = Place.find(params[:id])
   end
 
+  def update
+    binding.pry
+    if !params[:itinerary_id].empty? && !params[:id].empty? && @itinerary.user == current_user
+      @itinerary = Itinerary.find(params[:itinerary_id])
+      @place = Place.find(params[:id])
+    end
+  end
+
   private
 
   def place_params

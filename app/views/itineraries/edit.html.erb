@@ -1,12 +1,6 @@
 <h1>Edit itinerary</h1>
 
-<% if !@itinerary.places.empty? %>
-<ul>
-  <% @itinerary.places.each do |place| %>
-    <li><%= link_to place.name, itinerary_place_path(@itinerary, place) %></li>
-  <% end %>
-</ul>
-<% end %>
+
 
 <%= form_for(@itinerary) do |f| %>
   <% if @itinerary.errors.any? %>
@@ -22,6 +16,15 @@
     <% end %>
 
   <%= hidden_field_tag([:user_id], @user.id) %>
+
+  <% if !@itinerary.places.empty? %>
+  <ul>
+    <% @itinerary.places.each do |place| %>
+      <!-- <li><%= link_to place.name, itinerary_place_path(@itinerary, place) %> -->
+      <li><%= place.name %> <%= link_to "Delete site", itinerary_place_path(@itinerary, place), :method=> :put %>
+    <% end %>
+  </ul>
+  <% end %>
 
   <div class="field">
     <%= f.text_field :name, placeholder: "Itinerary name" %>

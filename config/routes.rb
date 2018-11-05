@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
    root 'users#new'
    get 'logout' => 'users#logout'
+   get '/site/:id/delete/:id' => 'itineraries#update'
    patch 'sessions' => 'sessions#create'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -32,7 +33,7 @@ Rails.application.routes.draw do
 
   # Example resource route with sub-resources:
     resources :itineraries do
-      resources :places, only: [:index, :show, :new, :edit, :create]
+      resources :places, only: [:index, :show, :new, :edit, :create, :update]
     end
 
   # Example resource route with more complex sub-resources:

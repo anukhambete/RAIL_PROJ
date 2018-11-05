@@ -35,7 +35,7 @@ class ItinerariesController < ApplicationController
   end
 
   def update
-    #binding.pry
+    binding.pry
     @itinerary = Itinerary.find(params[:id])
     if @itinerary.update(itinerary_params)
       redirect_to itineraries_path
