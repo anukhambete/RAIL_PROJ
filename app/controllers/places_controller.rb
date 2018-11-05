@@ -24,6 +24,7 @@ class PlacesController < ApplicationController
 
     if !params[:place][:id].empty?
       @place_e = Place.find(params[:place][:id])
+      @itinerary = Itinerary.find(params[:itinerary_id])
       @place_e.itineraries << @itinerary unless @itinerary.places.include?(@place_e)
       @place_e.save
       redirect_to itinerary_path(@itinerary)
@@ -38,6 +39,10 @@ class PlacesController < ApplicationController
     end
     #binding.pry
     #redirect_to itinerary_path(@itinerary)
+  end
+
+  def show
+    @place = Place.find(params[:id])
   end
 
   private
