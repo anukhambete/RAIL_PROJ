@@ -17,7 +17,8 @@ class PlacesController < ApplicationController
     @itinerary = Itinerary.find(params[:itinerary_id])
     if params[:place][:id].empty? && params[:place][:name].empty?
       @itinerary = Itinerary.find(params[:itinerary_id])
-      @place = Place.new
+      @place = Place.new(place_params)
+      @place.save
       render :new
     end
 

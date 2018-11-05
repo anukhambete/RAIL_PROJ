@@ -13,11 +13,27 @@
 
 <%= form_for [@itinerary, @place] do |f| %>
   <!-- <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br> -->
+  <% if @place.errors.any? %>
+      <div id="error_explanation">
+        <h2>There were some errors:</h2>
+
+        <ul>
+          <% @place.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+  <div class="field">
   <%= f.label "Add Existing Place" %>
   <%= f.collection_select :id, Place.all, :id, :name, :include_blank => true %></br></br>
+  </div></br>
+
+  <div class="field">
   <%= f.label "Add New Place" %>
-  <%= f.label :name %>
-  <%= f.text_field :name %></br></br>
+  <%= f.text_field :name %>
+  </div></br>
 
   <%= f.submit "Add site" %>
 <% end %>
