@@ -4,10 +4,9 @@
 <h2><%= @itinerary.description %></h2>
 
 <%= form_for [@itinerary, @place] do |f| %>
-
+  <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br>
   <%= f.label :name %>
-  <%= f.text_field :name %>
-  <br />
+  <%= f.text_field :name %></br></br>
 
   <%= f.submit "Add site" %>
 <% end %>

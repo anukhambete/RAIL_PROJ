@@ -16,7 +16,7 @@ class PlacesController < ApplicationController
     #binding.pry
     @place = Place.new(place_params)
     @itinerary = Itinerary.find(params[:itinerary_id])
-    @place.itineraries << @itinerary
+    @place.itineraries << @itinerary 
     @place.save
     #binding.pry
     redirect_to itinerary_path(@itinerary)
