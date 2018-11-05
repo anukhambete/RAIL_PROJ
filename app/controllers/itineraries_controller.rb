@@ -37,8 +37,15 @@ class ItinerariesController < ApplicationController
   def update
     #binding.pry
     @itinerary = Itinerary.find(params[:id])
-    @itinerary.update(itinerary_params)
-    render :show
+    if @itinerary.update(itinerary_params)
+      redirect_to itineraries_path
+    else
+      @user = User.find(session[:user_id])
+      @itinerary = Itinerary.find(params[:id])
+      @itinerary.errors.messages[:name] = ["Cannot leave any fields blank"]
+      #binding.pry
+      render :edit
+    end
   end
 
   private
