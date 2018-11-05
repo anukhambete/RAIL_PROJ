@@ -31,7 +31,7 @@ class PlacesController < ApplicationController
     end
 
     if !params[:place][:name].empty?
-      @place = Place.find_or_create_by(name: place_params[:name])
+      @place = Place.find_or_create_by(name: proper_case(params[:place][:name]))
       @itinerary = Itinerary.find(params[:itinerary_id])
       @place.itineraries << @itinerary unless @itinerary.places.include?(@place)
       @place.save
@@ -69,5 +69,9 @@ class PlacesController < ApplicationController
 
   def current_user
     User.find(session[:user_id])
+  end
+
+  def proper_case(string)
+    string.split(/(\W)/).map(&:capitalize).join
   end
 end
