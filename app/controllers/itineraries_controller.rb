@@ -34,6 +34,13 @@ class ItinerariesController < ApplicationController
     @user = User.find(session[:user_id])
   end
 
+  def update
+    #binding.pry
+    @itinerary = Itinerary.find(params[:id])
+    @itinerary.update(itinerary_params)
+    render :show
+  end
+
   private
 
   def itinerary_params
