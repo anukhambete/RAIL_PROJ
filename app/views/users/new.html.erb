@@ -1,8 +1,35 @@
 <h1>Sign up</h1>
 
-<%= form_for @user do |f| %>
-  <%= f.text_field :username, placeholder: "username" %>
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+      <div id="error_explanation">
+        <h2>There were some errors:</h2>
+
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+  <div class="field">
+    <%= f.text_field :username, placeholder: "username" %>
+  </div></br>
+
+  <div class="field">
   <%= f.text_field :password, placeholder: "password" %>
+  </div></br>
+
+  <div class="field">
   <%= f.text_field :email, placeholder: "email address" %>
+  </div></br>
+
+  <div class="actions">
   <%= f.submit %>
+  </div>
 <% end %>
+
+
+<h2>Returning users</h2>
+<%= link_to "Sign In", '/logout' %>

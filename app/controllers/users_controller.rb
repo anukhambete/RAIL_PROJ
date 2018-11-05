@@ -6,9 +6,9 @@ class UsersController < ApplicationController
   end
 
   def create
-    binding.pry
-    @user = User.create(user_params)
-    @user.save
+    #binding.pry
+    @user = User.new(user_params)
+    #@user.save
 
     if @user.save
       @user.authenticate(params[:user][:password])
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       #binding.pry
       redirect_to itineraries_path
     else
-      redirect_to new_user_path
+      render :new
     end
 
   end
