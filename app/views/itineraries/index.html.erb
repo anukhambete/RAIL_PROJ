@@ -2,7 +2,7 @@
 
 <ul>
 <% @itineraries.each do |itin| unless @itineraries.empty? %>
-  <li><%= link_to itin.name, itinerary_path(itin) %>
+  <li><%= link_to itin.name, itinerary_path(itin) %> by <%= itin.user.username %>
 <% end %>
 <% end %>
 </ul>

@@ -35,15 +35,16 @@ class ItinerariesController < ApplicationController
   end
 
   def update
-    binding.pry
+    #binding.pry
     @itinerary = Itinerary.find(params[:id])
-    if @itinerary.update(itinerary_params)
+    if current_user == @itinerary.user && @itinerary.update(itinerary_params)
       redirect_to itineraries_path
     else
-      @user = User.find(session[:user_id])
-      @itinerary = Itinerary.find(params[:id])
-      @itinerary.errors.messages[:name] = ["Cannot leave any fields blank"]
-      #binding.pry
+      #@user = User.find(session[:user_id])
+      #@itinerary = Itinerary.find(params[:id])
+      #@itinerary.errors.messages[:name] = ["Cannot leave any fields blank"]
+      itin_update_fail(params)
+      binding.pry
       render :edit
     end
   end
@@ -75,6 +76,29 @@ class ItinerariesController < ApplicationController
 
   def current_user
     User.find(session[:user_id])
+  end
+
+  def itin_update_fail(params_hash)
+    params = params_hash
+    @user =  User.find(session[:user_id])
+    @itinerary = Itinerary.find(params[:id])
+
+    if @user == @itinerary.user
+      if params[:itinerary][:name].empty? && params[:itinerary][:description].empty?
+        @user =  User.find(session[:user_id])
+        @itinerary = Itinerary.find(params[:id])
+        @itinerary.errors.messages[:name] = ["Cannot leave name blank"]
+        @itinerary.errors.messages[:description] = ["Cannot leave description blank"]
+      elsif params[:itinerary][:name].empty?
+        @user =  User.find(session[:user_id])
+        @itinerary = Itinerary.find(params[:id])
+        @itinerary.errors.messages[:name] = ["Cannot leave name blank"]
+      elsif params[:itinerary][:description].empty?
+        @user =  User.find(session[:user_id])
+        @itinerary = Itinerary.find(params[:id])
+        @itinerary.errors.messages[:description] = ["Cannot leave description blank"]
+      end
+    end
   end
 
 end

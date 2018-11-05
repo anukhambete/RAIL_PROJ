@@ -15,26 +15,22 @@ class PlacesController < ApplicationController
   def create
     #binding.pry
     @itinerary = Itinerary.find(params[:itinerary_id])
-    if params[:place][:id].empty? && params[:place][:name].empty?
+    if params[:place][:id].empty? && params[:place][:name].empty? && correct_itin_user(@itinerary)
       @itinerary = Itinerary.find(params[:itinerary_id])
       @place = Place.new(place_params)
       @place.save
       render :new
-    end
-
-    if !params[:place][:id].empty?
-      @place_e = Place.find(params[:place][:id])
-      @itinerary = Itinerary.find(params[:itinerary_id])
-      @place_e.itineraries << @itinerary unless @itinerary.places.include?(@place_e)
-      @place_e.save
-      redirect_to itinerary_path(@itinerary)
-    end
-
-    if !params[:place][:name].empty?
+    elsif !params[:place][:id].empty? && !params[:place][:name].empty? && correct_itin_user(@itinerary)
       @place = Place.find_or_create_by(name: proper_case(params[:place][:name]))
-      @itinerary = Itinerary.find(params[:itinerary_id])
-      @place.itineraries << @itinerary unless @itinerary.places.include?(@place)
-      @place.save
+      place_itin_association(params,@place)
+      redirect_to itinerary_path(@itinerary)
+    elsif !params[:place][:id].empty? && correct_itin_user(@itinerary)
+      @place = Place.find(params[:place][:id])
+      place_itin_association(params,@place)
+      redirect_to itinerary_path(@itinerary)
+    elsif !params[:place][:name].empty? && correct_itin_user(@itinerary)
+      @place = Place.find_or_create_by(name: proper_case(params[:place][:name]))
+      place_itin_association(params,@place)
       redirect_to itinerary_path(@itinerary)
     end
     #binding.pry
@@ -71,7 +67,21 @@ class PlacesController < ApplicationController
     User.find(session[:user_id])
   end
 
+  def correct_itin_user(itinerary)
+    @itinerary = itinerary
+    current_user == @itinerary.user
+  end
+
   def proper_case(string)
     string.split(/(\W)/).map(&:capitalize).join
   end
+
+  def place_itin_association(params_hash,place)
+    params = params_hash
+    @place = place
+    @itinerary = Itinerary.find(params[:itinerary_id])
+    @place.itineraries << @itinerary unless @itinerary.places.include?(@place)
+    @place.save
+  end
+
 end
