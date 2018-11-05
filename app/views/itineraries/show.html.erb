@@ -15,3 +15,7 @@
 <% if @current_user == @itinerary.user %>
 <h3><%= link_to "Add site", new_itinerary_place_path(@itinerary) %></h3>
 <% end %>
+
+<% if @current_user == @itinerary.user %>
+<h3><%= link_to "Edit site", edit_itinerary_path(@itinerary) %></h3>
+<% end %>

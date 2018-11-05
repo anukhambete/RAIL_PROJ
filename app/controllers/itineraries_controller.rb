@@ -29,6 +29,11 @@ class ItinerariesController < ApplicationController
     @current_user = current_user
   end
 
+  def edit
+    @itinerary = Itinerary.find(params[:id])
+    @user = User.find(session[:user_id])
+  end
+
   private
 
   def itinerary_params
