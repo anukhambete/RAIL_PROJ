@@ -3,8 +3,19 @@
 <h2><%= @itinerary.name %> by <%= @itinerary.user.username %></h2>
 <h2><%= @itinerary.description %></h2>
 
+<% if !@itinerary.places.empty? %>
+<ul>
+  <% @itinerary.places.each do |place| %>
+    <li><%= place.name %></li>
+  <% end %>
+</ul>
+<% end %>
+
 <%= form_for [@itinerary, @place] do |f| %>
-  <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br>
+  <!-- <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br> -->
+  <%= f.label "Add Existing Place" %>
+  <%= f.collection_select :id, Place.all, :id, :name, :include_blank => true %></br></br>
+  <%= f.label "Add New Place" %>
   <%= f.label :name %>
   <%= f.text_field :name %></br></br>
 

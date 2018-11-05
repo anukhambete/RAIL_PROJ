@@ -14,12 +14,29 @@ class PlacesController < ApplicationController
 
   def create
     #binding.pry
-    @place = Place.new(place_params)
     @itinerary = Itinerary.find(params[:itinerary_id])
-    @place.itineraries << @itinerary 
-    @place.save
+    if params[:place][:id].empty? && params[:place][:name].empty?
+      @itinerary = Itinerary.find(params[:itinerary_id])
+      @place = Place.new
+      render :new
+    end
+
+    if !params[:place][:id].empty?
+      @place_e = Place.find(params[:place][:id])
+      @place_e.itineraries << @itinerary unless @itinerary.places.include?(@place_e)
+      @place_e.save
+      redirect_to itinerary_path(@itinerary)
+    end
+
+    if !params[:place][:name].empty?
+      @place = Place.find_or_create_by(name: place_params[:name])
+      @itinerary = Itinerary.find(params[:itinerary_id])
+      @place.itineraries << @itinerary unless @itinerary.places.include?(@place)
+      @place.save
+      redirect_to itinerary_path(@itinerary)
+    end
     #binding.pry
-    redirect_to itinerary_path(@itinerary)
+    #redirect_to itinerary_path(@itinerary)
   end
 
   private
