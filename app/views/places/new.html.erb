@@ -37,7 +37,7 @@
 
   <div class="field">
   <%= f.label "Address" %>
-  <%= f.text_field :address %>
+  <%= f.select :address, [[''], ['Manhattan'], ['Queens'], ['Staten Island'], ['Brooklyn'], ['Bronx']] %>
   </div></br>
 
   <%= f.submit "Add site" %>

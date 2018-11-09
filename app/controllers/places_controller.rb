@@ -34,6 +34,7 @@ class PlacesController < ApplicationController
   def create
     #binding.pry
     @itinerary = Itinerary.find(params[:itinerary_id])
+    #creating a new place with errors when address and name are not given and blank
     if params[:place][:id].empty? && (params[:place][:name].empty?||params[:place][:address].empty?) && correct_itin_user(@itinerary)
       @itinerary = Itinerary.find(params[:itinerary_id])
       @place = Place.new(place_params)
@@ -47,10 +48,19 @@ class PlacesController < ApplicationController
       @place = Place.find(params[:place][:id])
       place_itin_association(params,@place)
       redirect_to itinerary_path(@itinerary)
-    elsif !params[:place][:name].empty? && correct_itin_user(@itinerary)
-      @place = Place.find_or_create_by(name: proper_case(params[:place][:name]))
-      place_itin_association(params,@place)
-      redirect_to itinerary_path(@itinerary)
+    elsif !params[:place][:name].empty? && !params[:place][:address].empty? && correct_itin_user(@itinerary)
+      #creating a new place when name and address are not blank
+      #binding.pry
+      @place = Place.find_by(name: proper_case(params[:place][:name]))
+      if @place.nil?
+        @place = Place.new(name: proper_case(params[:place][:name]), address: params[:place][:address])
+        place_itin_association(params,@place)
+        redirect_to itinerary_path(@itinerary)
+      else
+        redirect_to itinerary_path(@itinerary)
+      end
+      #place_itin_association(params,@place)
+
     end
     #binding.pry
     #redirect_to itinerary_path(@itinerary)
