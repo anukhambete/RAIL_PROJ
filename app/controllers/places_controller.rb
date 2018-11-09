@@ -50,13 +50,13 @@ class PlacesController < ApplicationController
       redirect_to itinerary_path(@itinerary)
     elsif !params[:place][:name].empty? && !params[:place][:address].empty? && correct_itin_user(@itinerary)
       #creating a new place when name and address are not blank
-      #binding.pry
-      @place = Place.find_by(name: proper_case(params[:place][:name]))
+      @place = Place.find_by_name_address(params)
       if @place.nil?
         @place = Place.new(name: proper_case(params[:place][:name]), address: params[:place][:address])
         place_itin_association(params,@place)
         redirect_to itinerary_path(@itinerary)
-      else
+      elsif !@place.nil?
+        place_itin_association(params,@place)
         redirect_to itinerary_path(@itinerary)
       end
       #place_itin_association(params,@place)
