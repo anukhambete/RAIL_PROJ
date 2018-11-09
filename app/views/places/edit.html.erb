@@ -1,1 +1,26 @@
 <h1>Edit Place Form</h1>
+
+<%= form_for (@place) do |f| %>
+  <!-- <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br> -->
+  <% if @place.errors.any? %>
+      <div id="error_explanation">
+        <h2>There were some errors:</h2>
+
+        <ul>
+          <% @place.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.text_field :name %>
+    </div></br>
+
+    <div class="field">
+    <%= f.text_area :address %>
+    </div></br>
+
+  <%= f.submit "Edit place" %>
+<% end %>

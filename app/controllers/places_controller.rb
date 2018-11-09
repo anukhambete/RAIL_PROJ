@@ -7,7 +7,14 @@ class PlacesController < ApplicationController
   end
 
   def edit
-    @place = Place.find(params[:id])
+    #binding.pry
+    @place = Place.find(params[:id]) unless @place.nil?
+    if !@place.nil? && check_if_admin
+      @place = Place.find(params[:id])
+    else
+      redirect_to places_path, alert: "Place not found."
+    end
+
   end
 
 
@@ -54,14 +61,28 @@ class PlacesController < ApplicationController
 
   def update
     #binding.pry
-    @itinerary = Itinerary.find(params[:itinerary_id])
-    if !params[:itinerary_id].empty? && !params[:id].empty? && @itinerary.user == current_user
+    #only admin can add address and edit name
+    @place = Place.find(params[:id])
+    if @place.valid? && check_if_admin
+      @place.update(name: params[:place][:name]) unless params[:place][:name].empty?
+      @place.update(address: params[:place][:address]) unless params[:place][:address].empty?
+      redirect_to places_path
+    elsif params.keys.include?("itinerary_id") && !check_if_admin
       @itinerary = Itinerary.find(params[:itinerary_id])
-      @place = Place.find(params[:id])
-      @itinerary.places.delete(Place.find_by(id: params[:id]))
-      @itinerary.save
-      redirect_to itinerary_path(@itinerary)
+      if !params[:itinerary_id].empty? && !params[:id].empty? && @itinerary.user == current_user
+        @itinerary = Itinerary.find(params[:itinerary_id])
+        @place = Place.find(params[:id])
+        @itinerary.places.delete(Place.find_by(id: params[:id]))
+        @itinerary.save
+        redirect_to itinerary_path(@itinerary)
+      else
+        redirect_to itineraries_path
+      end
+    else
+      redirect_to places_path, alert: "Place not found."
     end
+    #user removes place from own itinerary
+
   end
 
   private

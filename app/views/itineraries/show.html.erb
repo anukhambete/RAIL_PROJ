@@ -20,7 +20,7 @@
 <p><%= link_to "Add places", new_itinerary_place_path(@itinerary) %> <%= link_to "Edit Itinerary", edit_itinerary_path(@itinerary) %> <%= link_to "Delete Itinerary", itinerary_path(@itinerary), :method=> :delete %></p>
 <% end %>
 
-<% if @current_user != @itinerary.user %>
+<% if @current_user != @itinerary.user && !check_if_admin(@current_user) %>
 
   <% if current_user_likes_itins(@current_user, @itinerary) && !@like.nil? %>
     <%= button_to "Unlike post", like_path(@like.id), params: {'itin_id' => @itinerary.id}, :method=> :delete %>
