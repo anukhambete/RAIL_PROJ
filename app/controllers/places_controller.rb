@@ -8,7 +8,7 @@ class PlacesController < ApplicationController
 
   def edit
     #binding.pry
-    @place = Place.find(params[:id]) unless !Place.all.ids.include?(params[:id])
+    @place = Place.find(params[:id]) unless !Place.all.ids.include?(params[:id].to_i)
     if !@place.nil? && check_if_admin
       @place = Place.find(params[:id])
     else
@@ -27,7 +27,7 @@ class PlacesController < ApplicationController
       @place = Place.new
       @current_user = current_user
       @itinerary = Itinerary.find(params[:itinerary_id])
-      @place.itineraries << @itinerary
+      #@place.itineraries << @itinerary
     end
   end
 

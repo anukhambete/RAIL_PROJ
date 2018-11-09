@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= "Welcome " %><%= current_user.username.upcase %>
+<%= "Welcome " %><%= current_user.username.upcase unless session[:user_id].nil? %>
 <%= yield %>
 
 </body>

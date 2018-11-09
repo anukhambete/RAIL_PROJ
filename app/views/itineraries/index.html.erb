@@ -1,11 +1,11 @@
 <h1>List of Itineraries</h1>
 
-<ul>
+<table>
 <% @itineraries.each do |itin| unless @itineraries.empty? %>
-  <li><%= link_to itin.name, itinerary_path(itin) %> by <%= itin.user.username %>
+  <tr><td><%= link_to itin.name, itinerary_path(itin) %></td> <td>  by <%= itin.user.username %></td> <td><%= itin.likes.count unless itin.likes.empty? %><%= itin.likes.count == 1 ? " Like" : " Likes" unless itin.likes.empty? %></td><tr>
 <% end %>
 <% end %>
-</ul>
+</table>
 </br></br>
 
 <%= link_to "Create new Itinerary", new_itinerary_path %></br>

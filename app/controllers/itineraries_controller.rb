@@ -25,7 +25,7 @@ class ItinerariesController < ApplicationController
 
   def show
     #binding.pry
-    @itinerary = Itinerary.find(params[:id]) unless !Itinerary.all.ids.include?(params[:id])
+    @itinerary = Itinerary.find(params[:id]) unless !Itinerary.all.ids.include?(params[:id].to_i)
     #binding.pry
     if @itinerary.nil?
       redirect_to itineraries_path
