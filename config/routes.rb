@@ -34,8 +34,10 @@ Rails.application.routes.draw do
 
   # Example resource route with sub-resources:
     resources :itineraries do
-      resources :places, only: [:index, :show, :new, :edit, :create, :update]
+      resources :places, only: [:show, :new, :edit, :create, :update]
     end
+
+    resources :places
 
   # Example resource route with more complex sub-resources:
   #   resources :products do

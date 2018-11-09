@@ -1,5 +1,16 @@
 require 'pry'
 class PlacesController < ApplicationController
+
+  def index
+    #binding.pry
+      @places = Place.all
+  end
+
+  def edit
+    @place = Place.find(params[:id])
+  end
+
+
   def new
     #binding.pry
     if params[:itinerary_id] && !Itinerary.exists?(params[:itinerary_id])
@@ -82,6 +93,10 @@ class PlacesController < ApplicationController
     @itinerary = Itinerary.find(params[:itinerary_id])
     @place.itineraries << @itinerary unless @itinerary.places.include?(@place)
     @place.save
+  end
+
+  def check_if_admin
+    current_user.username == 'admin'
   end
 
 end

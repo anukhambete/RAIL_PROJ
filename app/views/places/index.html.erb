@@ -1,0 +1,9 @@
+<h1>List of places</h1>
+
+<table>
+<% @places.each do |place| unless @places.empty? %>
+  <tr><td><%= place.name %> <%= link_to "Edit place", edit_place_path(place) %></td></tr>
+<% end %>
+<% end %>
+</table>
+</br>
