@@ -25,9 +25,15 @@ class ItinerariesController < ApplicationController
 
   def show
     #binding.pry
-    @itinerary = Itinerary.find(params[:id])
-    @current_user = current_user
-    @like = Like.find_by(user_id: @current_user.id, itinerary_id: @itinerary.id)
+    @itinerary = Itinerary.find(params[:id]) unless !Itinerary.all.ids.include?(params[:id])
+    #binding.pry
+    if @itinerary.nil?
+      redirect_to itineraries_path
+      #add alert message
+    else
+      @current_user = current_user
+      @like = Like.find_by(user_id: @current_user.id, itinerary_id: @itinerary.id)
+    end
     #binding.pry
   end
 

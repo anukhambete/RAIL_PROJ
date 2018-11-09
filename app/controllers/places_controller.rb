@@ -8,11 +8,12 @@ class PlacesController < ApplicationController
 
   def edit
     #binding.pry
-    @place = Place.find(params[:id]) unless @place.nil?
+    @place = Place.find(params[:id]) unless !Place.all.ids.include?(params[:id])
     if !@place.nil? && check_if_admin
       @place = Place.find(params[:id])
     else
       redirect_to places_path, alert: "Place not found."
+      #add alert message
     end
 
   end
