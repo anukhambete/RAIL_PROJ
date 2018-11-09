@@ -4,4 +4,5 @@ class Place < ActiveRecord::Base
   has_many :users
   has_many :users, through: :itineraries
   validates :name, presence: true
+  validates :address, presence: true
 end

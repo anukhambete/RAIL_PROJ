@@ -34,7 +34,7 @@ class PlacesController < ApplicationController
   def create
     #binding.pry
     @itinerary = Itinerary.find(params[:itinerary_id])
-    if params[:place][:id].empty? && params[:place][:name].empty? && correct_itin_user(@itinerary)
+    if params[:place][:id].empty? && (params[:place][:name].empty?||params[:place][:address].empty?) && correct_itin_user(@itinerary)
       @itinerary = Itinerary.find(params[:itinerary_id])
       @place = Place.new(place_params)
       @place.save
@@ -89,7 +89,7 @@ class PlacesController < ApplicationController
   private
 
   def place_params
-    params.require(:place).permit(:name)
+    params.require(:place).permit(:name, :address)
   end
 
   def logged_in?
