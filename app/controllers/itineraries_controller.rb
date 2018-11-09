@@ -27,6 +27,8 @@ class ItinerariesController < ApplicationController
     #binding.pry
     @itinerary = Itinerary.find(params[:id])
     @current_user = current_user
+    @like = Like.find_by(user_id: @current_user.id, itinerary_id: @itinerary.id)
+    #binding.pry
   end
 
   def edit

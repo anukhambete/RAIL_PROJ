@@ -18,7 +18,7 @@ Rails.application.routes.draw do
      resources :itineraries
      #resources :places
      resources :sessions
-     resources :likes, only: [:create, :update]
+     resources :likes, only: [:create, :update, :destroy]
 
   # Example resource route with options:
   #   resources :products do
