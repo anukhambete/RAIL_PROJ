@@ -19,4 +19,8 @@
 
 <% if @current_user != @itinerary.user %>
 <p>"Add like here"</p>
+  <%= form_tag(method: :post, action: :create, controller: :likes) do %>
+  <%= hidden_field_tag(:itinerary_id, @itinerary.id) %>
+  <%= submit_tag "Like this post" %>
+  <% end %>
 <% end %>
