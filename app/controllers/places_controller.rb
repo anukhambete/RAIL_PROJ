@@ -1,5 +1,6 @@
 require 'pry'
 class PlacesController < ApplicationController
+before_action :check_if_admin!, only: [:edit]
 
   def index
       @places = Place.all
@@ -126,6 +127,12 @@ class PlacesController < ApplicationController
 
   def check_if_admin
     current_user.username == 'admin'
+  end
+
+  def check_if_admin!
+    unless check_if_admin
+      redirect_to itineraries_path
+    end
   end
 
 end
