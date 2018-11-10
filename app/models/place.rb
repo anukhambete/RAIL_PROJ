@@ -14,11 +14,12 @@ class Place < ActiveRecord::Base
   scope :everything, -> { where(address: 'All') }
 
   def self.find_by_name_address(params_hash)
+    #find all instances with matching parameters
     params = params_hash
     name = params[:place][:name].split(/(\W)/).map(&:capitalize).join
     address = params[:place][:address]
-    place = self.find_by(name: name)
-    if !place.nil? && place.address == params[:place][:address]
+    place = Place.where(name: name, address: address)
+    if !place.nil?
       place
     else
       nil

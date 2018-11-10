@@ -1,6 +1,6 @@
 require 'pry'
 class PlacesController < ApplicationController
-before_action :check_if_admin!, only: [:edit]
+before_action :check_if_admin!, only: [:edit, :destroy]
 
   def index
     #binding.pry
@@ -36,8 +36,6 @@ before_action :check_if_admin!, only: [:edit]
       #@place.itineraries << @itinerary
     end
 
-
-
   end
 
   def create
@@ -55,6 +53,10 @@ before_action :check_if_admin!, only: [:edit]
           @places = Place.all
           render :index
           #add alert message saying place already exists
+        elsif @place.nil?
+          #binding.pry
+          @place = Place.find_or_create_by(name: proper_case(params[:place][:name]), address: params[:place][:address])
+          redirect_to places_path
         end
       end
     end
@@ -92,8 +94,6 @@ before_action :check_if_admin!, only: [:edit]
       end
     end
 
-
-
   end
 
   def show
@@ -104,11 +104,20 @@ before_action :check_if_admin!, only: [:edit]
     #binding.pry
     #only admin can add address and edit name
     @place = Place.find(params[:id])
+    @place_existing = Place.find_by_name_address(params)
     if @place.valid? && check_if_admin
-      @place.update(name: params[:place][:name]) unless params[:place][:name].empty?
-      @place.update(address: params[:place][:address]) unless params[:place][:address].empty?
-      redirect_to places_path
+      if @place_existing.empty?
+        @place.update(name: params[:place][:name]) unless params[:place][:name].empty?
+        @place.update(address: params[:place][:address]) unless params[:place][:address].empty?
+        #binding.pry
+        redirect_to places_path
+      else
+        @places = Place.all
+        render :index
+        ######include flash message
+      end
     elsif params.keys.include?("itinerary_id") && !check_if_admin
+      #regular user updates itinerary to exclude place
       @itinerary = Itinerary.find(params[:itinerary_id])
       if !params[:itinerary_id].empty? && !params[:id].empty? && @itinerary.user == current_user
         @itinerary = Itinerary.find(params[:itinerary_id])
