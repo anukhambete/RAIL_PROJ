@@ -49,6 +49,13 @@ before_action :check_if_admin!, only: [:edit]
         @current_user = current_user
         render :new
       elsif !params[:place][:name].empty? && !params[:place][:address].empty?
+        #binding.pry
+        @place = Place.find_by_name_address(params)
+        if !@place.nil?
+          @places = Place.all
+          render :index
+          #add alert message saying place already exists
+        end
       end
     end
 
