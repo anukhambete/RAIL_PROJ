@@ -2,12 +2,10 @@ require 'pry'
 class PlacesController < ApplicationController
 
   def index
-    #binding.pry
       @places = Place.all
   end
 
   def edit
-    #binding.pry
     @place = Place.find(params[:id]) unless !Place.all.ids.include?(params[:id].to_i)
     if !@place.nil? && check_if_admin
       @place = Place.find(params[:id])
@@ -15,12 +13,10 @@ class PlacesController < ApplicationController
       redirect_to places_path, alert: "Place not found."
       #add alert message
     end
-
   end
 
 
   def new
-    #binding.pry
     if params[:itinerary_id] && !Itinerary.exists?(params[:itinerary_id])
     redirect_to itineraries_path, alert: "Itinerary not found."
     else
@@ -62,10 +58,9 @@ class PlacesController < ApplicationController
         place_itin_association(params,@place)
         redirect_to itinerary_path(@itinerary)
       end
-      #place_itin_association(params,@place)
+
     end
-    #binding.pry
-    #redirect_to itinerary_path(@itinerary)
+
   end
 
   def show

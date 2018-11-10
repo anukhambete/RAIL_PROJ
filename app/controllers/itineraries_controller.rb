@@ -10,12 +10,10 @@ class ItinerariesController < ApplicationController
   end
 
   def create
-    #binding.pry
     @itinerary = Itinerary.new(itinerary_params, params[:user_id])
     if @itinerary.save
       @itinerary.user = User.find(session[:user_id])
       @itinerary.save
-      #binding.pry
       redirect_to itinerary_path(@itinerary)
     else
       @user = User.find(session[:user_id])
@@ -24,9 +22,7 @@ class ItinerariesController < ApplicationController
   end
 
   def show
-    #binding.pry
     @itinerary = Itinerary.find(params[:id]) unless !Itinerary.all.ids.include?(params[:id].to_i)
-    #binding.pry
     if @itinerary.nil?
       redirect_to itineraries_path
       #add alert message
@@ -34,7 +30,6 @@ class ItinerariesController < ApplicationController
       @current_user = current_user
       @like = Like.find_by(user_id: @current_user.id, itinerary_id: @itinerary.id)
     end
-    #binding.pry
   end
 
   def edit
@@ -43,19 +38,18 @@ class ItinerariesController < ApplicationController
   end
 
   def update
-    #binding.pry
+
     @itinerary = Itinerary.find(params[:id])
     if current_user == @itinerary.user && @itinerary.update(itinerary_params)
       redirect_to itineraries_path
     else
       itin_update_fail(params)
-      #binding.pry
       render :edit
     end
   end
 
   def destroy
-    #binding.pry
+
     @user = User.find(session[:user_id])
     @itinerary = Itinerary.find(params[:id])
     if @itinerary.user == @user
