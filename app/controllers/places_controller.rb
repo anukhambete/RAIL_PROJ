@@ -3,6 +3,7 @@ class PlacesController < ApplicationController
 before_action :check_if_admin!, only: [:edit]
 
   def index
+    #binding.pry
       @places = Place.all
   end
 

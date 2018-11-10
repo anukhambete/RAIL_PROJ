@@ -6,6 +6,7 @@ class Place < ActiveRecord::Base
   has_many :users, through: :itineraries
   validates :name, presence: true
   validates :address, presence: true
+  scope :manhattan, -> { where(address: 'Manhattan') }
 
   def self.find_by_name_address(params_hash)
     params = params_hash
@@ -16,6 +17,6 @@ class Place < ActiveRecord::Base
       place
     else
       nil
-    end  
+    end
   end
 end
