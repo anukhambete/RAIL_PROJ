@@ -16,7 +16,7 @@ class ItinerariesController < ApplicationController
       @itinerary.user = User.find(session[:user_id])
       @itinerary.save
       #binding.pry
-      redirect_to itineraries_path
+      redirect_to itinerary_path(@itinerary)
     else
       @user = User.find(session[:user_id])
       render :new
@@ -49,7 +49,7 @@ class ItinerariesController < ApplicationController
       redirect_to itineraries_path
     else
       itin_update_fail(params)
-      binding.pry
+      #binding.pry
       render :edit
     end
   end
