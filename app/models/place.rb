@@ -11,7 +11,7 @@ class Place < ActiveRecord::Base
   scope :statenisland, -> { where(address: 'Staten Island') }
   scope :bronx, -> { where(address: 'Bronx') }
   scope :brooklyn, -> { where(address: 'Brooklyn') }
-  scope :all, -> { where(address: 'All') }
+  scope :everything, -> { where(address: 'All') }
 
   def self.find_by_name_address(params_hash)
     params = params_hash

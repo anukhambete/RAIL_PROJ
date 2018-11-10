@@ -25,31 +25,11 @@
 
 <%= form_for [@itinerary, @place] do |f| %>
   <!-- <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br> -->
-  <% if @place.errors.any? %>
-      <div id="error_explanation">
-        <h2>There were some errors:</h2>
-
-        <ul>
-          <% @place.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+  <%= render partial: "form", locals: {place: @place, f: f} %>
 
   <div class="field">
   <%= f.label "Add Existing Place" %>
   <%= f.collection_select :id, Place.all, :id, :name, :include_blank => true %></br></br>
-  </div></br>
-
-  <div class="field">
-  <%= f.label "Add New Place" %>
-  <%= f.text_field :name %>
-  </div></br>
-
-  <div class="field">
-  <%= f.label "Address" %>
-  <%= f.select :address, [[''], ['Manhattan'], ['Queens'], ['Staten Island'], ['Brooklyn'], ['Bronx']] %>
   </div></br>
 
   <%= f.submit "Add site" %>
