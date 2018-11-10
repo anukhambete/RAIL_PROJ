@@ -3,7 +3,8 @@ class PlacesController < ApplicationController
 before_action :check_if_admin!, only: [:edit]
 
   def index
-    #binding.pry
+    binding.pry
+    #if params.keys.include?("borough")
       @places = Place.all
   end
 
