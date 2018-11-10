@@ -2,26 +2,7 @@
 
 <%= form_for (@place) do |f| %>
   <!-- <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br> -->
-  <% if @place.errors.any? %>
-      <div id="error_explanation">
-        <h2>There were some errors:</h2>
+<%= render partial: "form", locals: {place: @place, f: f} %>
 
-        <ul>
-          <% @place.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="field">
-      <%= f.text_field :name %>
-    </div></br>
-
-    <div class="field">
-    <%= f.label "Address" %>
-    <%= f.select :address, [[''], ['Manhattan'], ['Queens'], ['Staten Island'], ['Brooklyn'], ['Bronx']] %>
-    </div></br>
-
-  <%= f.submit "Edit place" %>
+<%= f.submit "Edit place" %>
 <% end %>

@@ -1,36 +1,42 @@
 <h2>Add existing or create new place for itinerary</h2>
 
-<h2><%= @itinerary.name %> by <%= @itinerary.user.username %></h2>
-<h2><%= @itinerary.description %></h2>
+<% if @current_user.username != 'admin' %>
+    <h2><%= @itinerary.name %> by <%= @itinerary.user.username %></h2>
+    <h2><%= @itinerary.description %></h2>
 
-<% if !@itinerary.places.empty? %>
-<ul>
-  <% @itinerary.places.each do |place| %>
-    <li><%= place.name  %></li>
-  <% end %>
-</ul>
+    <% if !@itinerary.places.empty? %>
+    <ul>
+      <% @itinerary.places.each do |place| %>
+        <li><%= place.name  %></li>
+      <% end %>
+    </ul>
+    <% end %>
+
+    <% if @itinerary.errors.any? %>
+        <div id="error_explanation">
+          <h2>There were some errors:</h2>
+
+          <ul>
+            <% @itinerary.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
 <% end %>
 
-<% if @itinerary.errors.any? %>
-    <div id="error_explanation">
-      <h2>There were some errors:</h2>
+    <%= form_for [@itinerary, @place] do |f| %>
+    <!-- <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br> -->
 
-      <ul>
-        <% @itinerary.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+    <%= render partial: "form", locals: {place: @place, f: f} %>
 
-<%= form_for [@itinerary, @place] do |f| %>
-  <!-- <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br> -->
-  <%= render partial: "form", locals: {place: @place, f: f} %>
+    <% if @current_user.username != 'admin' %>
+      <div class="field">
+      <%= f.label "Add Existing Place" %>
+      <%= f.collection_select :id, Place.all, :id, :name, :include_blank => true %></br></br>
+      </div></br>
+    <% end %>
 
-  <div class="field">
-  <%= f.label "Add Existing Place" %>
-  <%= f.collection_select :id, Place.all, :id, :name, :include_blank => true %></br></br>
-  </div></br>
-
-  <%= f.submit "Add site" %>
-<% end %>
+    <%= f.submit "Add site" %>
+    <% end %>

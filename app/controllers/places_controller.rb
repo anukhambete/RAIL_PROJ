@@ -20,49 +20,72 @@ before_action :check_if_admin!, only: [:edit]
 
 
   def new
-    if params[:itinerary_id] && !Itinerary.exists?(params[:itinerary_id])
-    redirect_to itineraries_path, alert: "Itinerary not found."
+    #if user is admin then allow path place_path(@place) after making place.new places/1
+    if check_if_admin
+      @place = Place.new
+      @current_user = current_user
+      #binding.pry
+      #if regular user then params[:itinerary_id] must exist and the itinerary should exist
+    elsif params[:itinerary_id] && !Itinerary.exists?(params[:itinerary_id])
+      redirect_to itineraries_path, alert: "Itinerary not found."
+      #msg alert saying access denied or itin not present
     else
       @place = Place.new
       @current_user = current_user
       @itinerary = Itinerary.find(params[:itinerary_id])
       #@place.itineraries << @itinerary
     end
+
+
+
   end
 
   def create
     #binding.pry
-    @itinerary = Itinerary.find(params[:itinerary_id])
-    if params[:place][:id].empty? && (params[:place][:name].empty?||params[:place][:address].empty?) && correct_itin_user(@itinerary)
-      #creating a new place with errors when address and name are not given and blank
-      @itinerary = Itinerary.find(params[:itinerary_id])
-      @place = Place.new(place_params)
-      @place.save
-      render :new
-    elsif !params[:place][:id].empty? && (!params[:place][:name].empty?||!params[:place][:address].empty?)
-      # asking user to pick only from selection or to add name and address -- add falsh message instead
-      @itinerary = Itinerary.find(params[:itinerary_id])
-      @place = Place.new
-      @itinerary.errors.messages[:selection] = ["Choose existing place or create a new one with both fields"]
-      render :new
-    elsif !params[:place][:id].empty? && (params[:place][:name].empty? && params[:place][:address].empty?) && correct_itin_user(@itinerary)
-      #creating a new place when only params[:place][:id] is given
-      @place = Place.find(params[:place][:id])
-      place_itin_association(params,@place)
-      redirect_to itinerary_path(@itinerary)
-    elsif !params[:place][:name].empty? && !params[:place][:address].empty? && correct_itin_user(@itinerary)
-      #creating a new place when name and address are not blank
-      @place = Place.find_by_name_address(params)
-      if @place.nil?
-        @place = Place.new(name: proper_case(params[:place][:name]), address: params[:place][:address])
-        place_itin_association(params,@place)
-        redirect_to itinerary_path(@itinerary)
-      elsif !@place.nil?
-        place_itin_association(params,@place)
-        redirect_to itinerary_path(@itinerary)
+    if current_user.username == 'admin'
+      if params[:place][:name].empty? || params[:place][:address].empty?
+        @place = Place.new(place_params)
+        @place.save
+        @current_user = current_user
+        render :new
+      elsif !params[:place][:name].empty? && !params[:place][:address].empty?
       end
-
     end
+
+    if current_user.username != 'admin'
+      @itinerary = Itinerary.find(params[:itinerary_id])
+      if (params[:place].keys.include?('id') && params[:place][:id].empty?) && (params[:place][:name].empty?||params[:place][:address].empty?) && correct_itin_user(@itinerary)
+        #creating a new place with errors when address and name are not given and blank
+        @itinerary = Itinerary.find(params[:itinerary_id])
+        @place = Place.new(place_params)
+        @place.save
+        render :new
+      elsif !params[:place][:id].empty? && (!params[:place][:name].empty?||!params[:place][:address].empty?)
+        # asking user to pick only from selection or to add name and address -- add falsh message instead
+        @itinerary = Itinerary.find(params[:itinerary_id])
+        @place = Place.new
+        @itinerary.errors.messages[:selection] = ["Choose existing place or create a new one with both fields"]
+        render :new
+      elsif !params[:place][:id].empty? && (params[:place][:name].empty? && params[:place][:address].empty?) && correct_itin_user(@itinerary)
+        #creating a new place when only params[:place][:id] is given
+        @place = Place.find(params[:place][:id])
+        place_itin_association(params,@place)
+        redirect_to itinerary_path(@itinerary)
+      elsif !params[:place][:name].empty? && !params[:place][:address].empty? && correct_itin_user(@itinerary)
+        #creating a new place when name and address are not blank
+        @place = Place.find_by_name_address(params)
+        if @place.nil?
+          @place = Place.new(name: proper_case(params[:place][:name]), address: params[:place][:address])
+          place_itin_association(params,@place)
+          redirect_to itinerary_path(@itinerary)
+        elsif !@place.nil?
+          place_itin_association(params,@place)
+          redirect_to itinerary_path(@itinerary)
+        end
+      end
+    end
+
+
 
   end
 
