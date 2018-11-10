@@ -2,6 +2,7 @@ class ItinerariesController < ApplicationController
 
   def index
     @itineraries = Itinerary.all
+    @current_user = User.find(session[:user_id])
   end
 
   def new

@@ -7,6 +7,11 @@ class Place < ActiveRecord::Base
   validates :name, presence: true
   validates :address, presence: true
   scope :manhattan, -> { where(address: 'Manhattan') }
+  scope :queens, -> { where(address: 'Queens') }
+  scope :statenisland, -> { where(address: 'Staten Island') }
+  scope :bronx, -> { where(address: 'Bronx') }
+  scope :brooklyn, -> { where(address: 'Brooklyn') }
+  scope :all, -> { where(address: 'All') }
 
   def self.find_by_name_address(params_hash)
     params = params_hash

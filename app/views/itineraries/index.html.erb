@@ -1,3 +1,8 @@
+
+<% if @current_user.username == 'admin'%>
+  <%= link_to "Places index", places_path %></br>
+<% end %>
+
 <h1>List of Itineraries</h1>
 
 <table>
@@ -9,4 +14,4 @@
 </br></br>
 
 <%= link_to "Create new Itinerary", new_itinerary_path %></br>
-<%= link_to "Log Out", '/logout' %>
+<%= link_to "Log Out", '/logout' %></br>
