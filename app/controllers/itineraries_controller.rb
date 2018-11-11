@@ -1,12 +1,12 @@
 class ItinerariesController < ApplicationController
 before_action :find_and_set_itinerary!, only: [:show, :edit, :update, :destroy]
 before_action :logged_in?, only: [:new, :create, :show, :edit, :update, :destroy]
-before_action :current_user
+before_action :current_user, only: [:new, :create, :show, :edit, :update, :destroy]
 
   def index
     if logged_in?
       @itineraries = Itinerary.all
-      #@current_user = current_user
+      @current_user = current_user
     else
       redirect_to new_user_path
     end
@@ -18,14 +18,19 @@ before_action :current_user
   end
 
   def create
-    @itinerary = Itinerary.new(itinerary_params, params[:user_id])
-    if @itinerary.save
-      @itinerary.user = User.find(session[:user_id])
-      @itinerary.save
-      redirect_to itinerary_path(@itinerary)
+    #admin is not allowed to create new itineraries
+    if @current_user.username != 'admin'
+      @itinerary = Itinerary.new(itinerary_params, params[:user_id])
+      if @itinerary.save
+        @itinerary.user = User.find(session[:user_id])
+        @itinerary.save
+        redirect_to itinerary_path(@itinerary)
+      else
+        @current_user = User.find(session[:user_id])
+        render :new
+      end
     else
-      @user = User.find(session[:user_id])
-      render :new
+      redirect_to itineraries_path
     end
   end
 

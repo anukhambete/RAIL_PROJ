@@ -1,11 +1,11 @@
 require 'pry'
 class PlacesController < ApplicationController
-before_action :check_if_admin!, only: [:edit, :destroy]
+before_action :check_if_admin!, only: [:edit, :update, :destroy]
 
   def index
     #binding.pry
     #if params.keys.include?("borough")
-      @places = Place.all
+      @places = Place.all.order(:name, address: :asc)
   end
 
   def edit
@@ -49,11 +49,11 @@ before_action :check_if_admin!, only: [:edit, :destroy]
       elsif !params[:place][:name].empty? && !params[:place][:address].empty?
         #binding.pry
         @place = Place.find_by_name_address(params)
-        if !@place.nil?
+        if @place.nil?
           @places = Place.all
           render :index
           #add alert message saying place already exists
-        elsif @place.nil?
+        elsif !@place.nil?
           #binding.pry
           @place = Place.find_or_create_by(name: proper_case(params[:place][:name]), address: params[:place][:address])
           redirect_to places_path
@@ -94,7 +94,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
           place_itin_association(params,@place)
           redirect_to itinerary_path(@itinerary)
         elsif !@place.empty?
-          binding.pry
+          #binding.pry
           place_itin_association(params,@place.first)
           redirect_to itinerary_path(@itinerary)
         end
@@ -104,7 +104,13 @@ before_action :check_if_admin!, only: [:edit, :destroy]
   end
 
   def show
-    @place = Place.find(params[:id])
+    @place = Place.find(params[:id]) unless !Place.all.ids.include?(params[:id].to_i)
+    if !@place.nil?
+      @place = Place.find(params[:id])
+    else
+      redirect_to places_path, alert: "Place not found."
+      #add alert message
+    end
   end
 
   def update
@@ -114,8 +120,10 @@ before_action :check_if_admin!, only: [:edit, :destroy]
     @place_existing = Place.find_by_name_address(params) unless !check_if_admin
     if @place.valid? && check_if_admin
       if @place_existing.empty?
-        @place.update(name: params[:place][:name]) unless params[:place][:name].empty?
-        @place.update(address: params[:place][:address]) unless params[:place][:address].empty?
+        if !params[:place][:name].empty? && !params[:place][:address].empty?
+          @place.update(name: params[:place][:name]) unless params[:place][:name].empty?
+          @place.update(address: params[:place][:address]) unless params[:place][:address].empty?
+        end
         #binding.pry
         redirect_to places_path
       else

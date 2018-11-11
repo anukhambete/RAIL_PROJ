@@ -2,7 +2,7 @@
 
 <table>
 <% @places.each do |place| unless @places.empty? %>
-  <tr><td><%= place.name %></td>  <td><%="Location:" unless place.address.nil? %> <%= place.address unless place.address.nil? %></td> <td><%= link_to "Edit place", edit_place_path(place) %></td></tr>
+  <tr><td><%= link_to place.name, place_path(place) %></td>  <td><%="Location:" unless place.address.nil? %> <%= place.address unless place.address.nil? %></td> <td><%= link_to "Edit place", edit_place_path(place) %></td></tr>
 <% end %>
 <% end %>
 </table>

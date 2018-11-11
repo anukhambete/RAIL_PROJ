@@ -24,9 +24,9 @@ class UsersController < ApplicationController
   def logout
     if logged_in?
       session.clear
-      redirect_to "/"
+      redirect_to new_user_path
     else
-      redirect_to new_session_path
+      redirect_to new_user_path
     end
   end
 
