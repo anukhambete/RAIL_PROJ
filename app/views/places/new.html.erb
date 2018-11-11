@@ -34,7 +34,7 @@
     <% if @current_user.username != 'admin' %>
       <div class="field">
       <%= f.label "Add Existing Place" %>
-      <%= f.collection_select :id, Place.all, :id, :name, :include_blank => true %></br></br>
+      <%= f.collection_select :id, Place.all, :id, :name_with_id, :include_blank => true %></br></br>
       </div></br>
     <% end %>
 

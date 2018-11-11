@@ -15,6 +15,7 @@ class Place < ActiveRecord::Base
 
   def self.find_by_name_address(params_hash)
     #find all instances with matching parameters
+    #binding.pry
     params = params_hash
     name = params[:place][:name].split(/(\W)/).map(&:capitalize).join
     address = params[:place][:address]
@@ -24,5 +25,9 @@ class Place < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def name_with_id
+    "#{name}. #{address}"
   end
 end

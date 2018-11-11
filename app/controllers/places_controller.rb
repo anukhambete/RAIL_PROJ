@@ -63,32 +63,39 @@ before_action :check_if_admin!, only: [:edit, :destroy]
 
     if current_user.username != 'admin'
       @itinerary = Itinerary.find(params[:itinerary_id])
+      #binding.pry
       if (params[:place].keys.include?('id') && params[:place][:id].empty?) && (params[:place][:name].empty?||params[:place][:address].empty?) && correct_itin_user(@itinerary)
         #creating a new place with errors when address and name are not given and blank
         @itinerary = Itinerary.find(params[:itinerary_id])
         @place = Place.new(place_params)
         @place.save
+        @current_user = current_user
         render :new
       elsif !params[:place][:id].empty? && (!params[:place][:name].empty?||!params[:place][:address].empty?)
         # asking user to pick only from selection or to add name and address -- add falsh message instead
         @itinerary = Itinerary.find(params[:itinerary_id])
         @place = Place.new
         @itinerary.errors.messages[:selection] = ["Choose existing place or create a new one with both fields"]
+        @current_user = current_user
         render :new
+
       elsif !params[:place][:id].empty? && (params[:place][:name].empty? && params[:place][:address].empty?) && correct_itin_user(@itinerary)
         #creating a new place when only params[:place][:id] is given
         @place = Place.find(params[:place][:id])
+        #binding.pry
         place_itin_association(params,@place)
         redirect_to itinerary_path(@itinerary)
       elsif !params[:place][:name].empty? && !params[:place][:address].empty? && correct_itin_user(@itinerary)
         #creating a new place when name and address are not blank
         @place = Place.find_by_name_address(params)
-        if @place.nil?
+        if @place.empty?
+          #binding.pry
           @place = Place.new(name: proper_case(params[:place][:name]), address: params[:place][:address])
           place_itin_association(params,@place)
           redirect_to itinerary_path(@itinerary)
-        elsif !@place.nil?
-          place_itin_association(params,@place)
+        elsif !@place.empty?
+          binding.pry
+          place_itin_association(params,@place.first)
           redirect_to itinerary_path(@itinerary)
         end
       end
@@ -104,7 +111,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
     #binding.pry
     #only admin can add address and edit name
     @place = Place.find(params[:id])
-    @place_existing = Place.find_by_name_address(params)
+    @place_existing = Place.find_by_name_address(params) unless !check_if_admin
     if @place.valid? && check_if_admin
       if @place_existing.empty?
         @place.update(name: params[:place][:name]) unless params[:place][:name].empty?
@@ -159,6 +166,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
   end
 
   def place_itin_association(params_hash,place)
+    #binding.pry
     params = params_hash
     @place = place
     @itinerary = Itinerary.find(params[:itinerary_id])
