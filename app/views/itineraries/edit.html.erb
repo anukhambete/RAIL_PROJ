@@ -13,7 +13,7 @@
       </div>
     <% end %>
 
-  <%= hidden_field_tag([:user_id], @user.id) %>
+  <%= hidden_field_tag([:current_user_id], @current_user.id) %>
 
   <% if !@itinerary.places.empty? %>
   <ul>

@@ -1,13 +1,20 @@
 class ItinerariesController < ApplicationController
+before_action :find_and_set_itinerary!, only: [:show, :edit, :update, :destroy]
+before_action :logged_in?, only: [:new, :create, :show, :edit, :update, :destroy]
+before_action :current_user
 
   def index
-    @itineraries = Itinerary.all
-    @current_user = User.find(session[:user_id])
+    if logged_in?
+      @itineraries = Itinerary.all
+      #@current_user = current_user
+    else
+      redirect_to new_user_path
+    end
   end
 
   def new
     @itinerary = Itinerary.new
-    @user = User.find(session[:user_id])
+    #@user = User.find(session[:user_id])
   end
 
   def create
@@ -23,26 +30,31 @@ class ItinerariesController < ApplicationController
   end
 
   def show
-    @itinerary = Itinerary.find(params[:id]) unless !Itinerary.all.ids.include?(params[:id].to_i)
+    #find_and_set_itinerary!
+    #@itinerary = Itinerary.find(params[:id]) unless !Itinerary.all.ids.include?(params[:id].to_i)
     if @itinerary.nil?
       redirect_to itineraries_path
       #add alert message
     else
-      @current_user = current_user
+      #@current_user = current_user
       @like = Like.find_by(user_id: @current_user.id, itinerary_id: @itinerary.id)
     end
   end
 
   def edit
     @itinerary = Itinerary.find(params[:id])
-    @user = User.find(session[:user_id])
+    #@user = User.find(session[:user_id])
+    if @current_user != @itinerary.user
+      @itineraries = Itinerary.all
+      render :index #add warning saying that user does not have permission
+    end
   end
 
   def update
 
     @itinerary = Itinerary.find(params[:id])
     if current_user == @itinerary.user && @itinerary.update(itinerary_params)
-      redirect_to itineraries_path
+      redirect_to itinerary_path(@itinerary)
     else
       itin_update_fail(params)
       render :edit
@@ -51,9 +63,9 @@ class ItinerariesController < ApplicationController
 
   def destroy
 
-    @user = User.find(session[:user_id])
-    @itinerary = Itinerary.find(params[:id])
-    if @itinerary.user == @user
+    #@user = User.find(session[:user_id])
+    #@itinerary = Itinerary.find(params[:id])
+    if @itinerary.user == @current_user
       @itinerary.destroy
       flash[:notice] = "Itinerary deleted."
       redirect_to itineraries_path
@@ -70,12 +82,14 @@ class ItinerariesController < ApplicationController
     params.require(:itinerary).permit(:name, :description)
   end
 
+
+
   def logged_in?
     !!session[:user_id]
   end
 
   def current_user
-    User.find(session[:user_id])
+    @current_user = User.find(session[:user_id])
   end
 
   def itin_update_fail(params_hash)
@@ -100,5 +114,16 @@ class ItinerariesController < ApplicationController
       end
     end
   end
+
+  def find_and_set_itinerary!
+    #binding.pry
+    @itinerary = Itinerary.find(params[:id]) unless !Itinerary.all.ids.include?(params[:id].to_i)
+    if @itinerary
+      @itinerary
+    else
+      @itinerary = nil
+    end
+  end
+
 
 end
