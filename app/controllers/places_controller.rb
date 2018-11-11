@@ -127,7 +127,7 @@ before_action :check_if_admin!, only: [:edit, :update, :destroy]
         #binding.pry
         redirect_to places_path
       else
-        @places = Place.all
+        @places = Place.all.order(:name, address: :asc)
         render :index
         ######include flash message
       end
@@ -148,6 +148,13 @@ before_action :check_if_admin!, only: [:edit, :update, :destroy]
     end
     #user removes place from own itinerary
 
+  end
+
+  def destroy
+    #binding.pry
+    @place = Place.find(params[:id])
+    @place.destroy
+    redirect_to places_path
   end
 
   private
