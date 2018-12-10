@@ -3,6 +3,6 @@
 <%= form_for (@place) do |f| %>
   <!-- <%= f.collection_check_boxes :name, Place.all, :id, :name %></br></br> -->
 <%= render partial: "form", locals: {place: @place, f: f} %>
-
+<%= f.hidden_field :current_user_id, value: @current_user.id %>
 <%= f.submit "Edit place" %>
 <% end %>
