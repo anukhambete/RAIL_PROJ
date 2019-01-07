@@ -65,25 +65,27 @@ before_action :check_if_admin!, only: [:edit, :destroy]
       end
     end
 
-    @itinerary = Itinerary.find(params[:itinerary_id])
-    if current_user.username != 'admin' && correct_itin_user(@itinerary) #add current user is correct
+    if current_user.username != 'admin'
       @itinerary = Itinerary.find(params[:itinerary_id])
-      #binding.pry
-      method = user_create_number(params)
-      if method == 1
-        @place = Place.find(params[:place][:id])
-        place_itin_association(params,@place)
-        redirect_to itinerary_path(@itinerary)
-      elsif method == 2
-        @place = Place.where(name: proper_case(params[:place][:name]), address: params[:place][:address]).first_or_create
-        place_itin_association(params,@place)
-        redirect_to itinerary_path(@itinerary)
-      else
+      if correct_itin_user(@itinerary) #add current user is correct
         @itinerary = Itinerary.find(params[:itinerary_id])
-        @place = Place.new
-        @itinerary.errors.messages[:selection] = ["Choose existing place or create a new one with both fields"]
-        @current_user = current_user
-        render :new
+        #binding.pry
+        method = user_create_number(params)
+        if method == 1
+          @place = Place.find(params[:place][:id])
+          place_itin_association(params,@place)
+          redirect_to itinerary_path(@itinerary)
+        elsif method == 2
+          @place = Place.where(name: proper_case(params[:place][:name]), address: params[:place][:address]).first_or_create
+          place_itin_association(params,@place)
+          redirect_to itinerary_path(@itinerary)
+        else
+          @itinerary = Itinerary.find(params[:itinerary_id])
+          @place = Place.new
+          @itinerary.errors.messages[:selection] = ["Choose existing place or create a new one with both fields"]
+          @current_user = current_user
+          render :new
+        end
       end
     end
 

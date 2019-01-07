@@ -20,4 +20,30 @@ class SessionsController < ApplicationController
     end
   end
 
+  def createfb
+    #binding.pry
+    @user = User.find_or_create_by(email: auth['info']['email']) do |u|
+      u.username = auth['info']['name'] unless u.username != nil
+      u.password = "facebooklogin" unless u.password != nil
+    end
+    #binding.pry
+    if @user.save
+      session[:user_id] = @user.id
+      #binding.pry
+      redirect_to itineraries_path
+    else
+      redirect_to new_user_path
+    end
+
+  end
+
+  private
+  def auth
+    request.env['omniauth.auth']
+  end
+
+  def logged_in?
+    !!session[:user_id]
+  end
+
 end
