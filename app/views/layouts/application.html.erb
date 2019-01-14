@@ -11,12 +11,16 @@
 <div class="welcome-tag">
   <% if session[:user_id].nil? %>
   <%= "Welcome to Welp!!!" %>
-  <% else %>
-  <%= "Welcome " %><%= current_user.username.upcase unless session[:user_id].nil? %>
-  <% end %>
   <div class="right" id="sign_in">
   <%= link_to "Sign In", new_session_path %>
   </div>
+  <% else %>
+  <%= "Welcome " %><%= current_user.username.upcase unless session[:user_id].nil? %>
+  <div class="right" id="sign_in">
+  <%= link_to "Log Out", '/logout' %>
+  </div>
+  <% end %>
+
 </div>
 <%= yield %>
 
