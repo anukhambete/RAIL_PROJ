@@ -1,4 +1,4 @@
-
+<div class="background-image">
 <% if @current_user.username == 'admin'%>
   <%= link_to "Places index", places_path %></br>
 <% end %>
@@ -13,5 +13,25 @@
 </table>
 </br></br>
 
+
+<div class="itin_index clearfix max-width-4">
+<% @itineraries.each do |itin| unless @itineraries.empty? %>
+  <div class="col col-4 "><%= link_to itin.name, itinerary_path(itin) %></div>
+  <div class="col col-4 "> by <%= itin.user.username %></div>
+
+    <% if itin.likes.empty? %>
+    <div class="col col-4 "><%=  "NO likes yet"  %><%= itin.likes.count == 1 ? " Like" : " Likes" unless itin.likes.empty? %></div>
+    <% else %>
+    <div class="col col-4 "><%=  itin.likes.count  %><%= itin.likes.count == 1 ? " Like" : " Likes" unless itin.likes.empty? %></div>
+    <% end %>
+
+<% end %>
+<% end %>
+</div>
+
+<div class="footer_itin">
 <%= link_to "Create new Itinerary", new_itinerary_path %></br>
 <%= link_to "Log Out", '/logout' %></br>
+</div>
+
+</div>

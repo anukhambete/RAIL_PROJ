@@ -4,7 +4,8 @@ class Place < ActiveRecord::Base
   has_many :itineraries, through: :itinerary_places
   has_many :users
   has_many :users, through: :itineraries
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: { scope: :address,
+    message: "one location per borough" }
   validates :address, presence: true
   scope :manhattan, -> { where(address: 'Manhattan') }
   scope :queens, -> { where(address: 'Queens') }

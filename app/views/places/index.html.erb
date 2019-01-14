@@ -8,6 +8,9 @@
 </table>
 </br>
 
+
+
+
 <%= form_tag(places_path, method: :get) do %>
 <%= select_tag "borough", options_for_select(['All', 'Manhattan','Queens','Brooklyn','Bronx','Staten Island']) %>
 <%= submit_tag "View by borough" %>
