@@ -1,4 +1,8 @@
-<h1>Sign up</h1>
+<div class="background-image-users">
+
+<div class="new-user center">
+<h1>Welp!!!</h1>
+<h2>New Users Sign up</h2>
 
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
@@ -26,12 +30,13 @@
   </div></br>
 
   <div class="actions">
-  <%= f.submit %>
+  <%= f.submit "Join Welp!" %>
   </div>
-<% end %>
-
-
-<h2>Returning users</h2>
-<%= link_to "Sign In", new_session_path %></br>
+<% end %></br>
 
 <%= link_to('Log in with Facebook!', '/auth/facebook') %>
+</div>
+
+
+
+</div>

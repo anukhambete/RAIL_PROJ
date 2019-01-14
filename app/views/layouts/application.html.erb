@@ -8,8 +8,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div class="welcome tag">
-<%= "Welcome " %><%= current_user.username.upcase unless session[:user_id].nil? %>
+<div class="welcome-tag">
+  <% if session[:user_id].nil? %>
+  <%= "Welcome to Welp!!!" %>
+  <% else %>
+  <%= "Welcome " %><%= current_user.username.upcase unless session[:user_id].nil? %>
+  <% end %>
+  <div class="right" id="sign_in">
+  <%= link_to "Sign In", new_session_path %>
+  </div>
 </div>
 <%= yield %>
 
