@@ -13,7 +13,11 @@ before_action :current_user, only: [:new, :create, :show, :edit, :update, :destr
   end
 
   def new
+    if current_user.username == 'admin'
+      redirect_to itineraries_path
+    else
     @itinerary = Itinerary.new
+    end
     #@user = User.find(session[:user_id])
   end
 

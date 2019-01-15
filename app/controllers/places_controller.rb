@@ -4,8 +4,25 @@ before_action :check_if_admin!, only: [:edit, :destroy]
 
   def index
     #binding.pry
-    #if params.keys.include?("borough")
+    if params.keys.include?("borough")
+      case params[:borough]
+      when "Manhattan"
+        @places = Place.manhattan.order(:name, address: :asc)
+      when "Queens"
+        @places = Place.queens.order(:name, address: :asc)
+      when "Bronx"
+        @places = Place.bronx.order(:name, address: :asc)
+      when "Brooklyn"
+        @places = Place.brooklyn.order(:name, address: :asc)
+      when "Staten Island"
+        @places = Place.statenisland.order(:name, address: :asc)
+      else
+        @places = Place.all.order(:name, address: :asc)
+      end
+    else
       @places = Place.all.order(:name, address: :asc)
+    end
+
   end
 
   def edit
