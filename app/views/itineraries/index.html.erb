@@ -3,18 +3,17 @@
   <%= link_to "Places index", places_path %></br>
 <% end %>
 
+<div class="itin_index clearfix max-width-4">
 <h1>List of Itineraries</h1>
-
-<table>
-<% @itineraries.each do |itin| unless @itineraries.empty? %>
-  <tr><td><%= link_to itin.name, itinerary_path(itin) %></td> <td>  by <%= itin.user.username %></td> <td><%= itin.likes.count unless itin.likes.empty? %><%= itin.likes.count == 1 ? " Like" : " Likes" unless itin.likes.empty? %></td><tr>
+<div class="col col-4 "><h3><%= link_to "View List of Places", places_path %></h3></div>
+<% if @current_user.username != 'admin'%>
+  <div class="col col-4 "><h3><%= link_to "Create a new Itinerary", new_itinerary_path %></h3></div>
 <% end %>
-<% end %>
-</table>
-</br></br>
 
+</div>
 
 <div class="itin_index clearfix max-width-4">
+
 <% @itineraries.each do |itin| unless @itineraries.empty? %>
   <div class="col col-4 "><%= link_to itin.name, itinerary_path(itin) %></div>
   <div class="col col-4 "> by <%= itin.user.username %></div>
@@ -31,7 +30,6 @@
 
 <div class="footer_itin">
 <%= link_to "Create new Itinerary", new_itinerary_path %></br>
-
 </div>
 
 </div>

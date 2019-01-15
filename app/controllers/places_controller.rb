@@ -82,7 +82,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
         else
           @itinerary = Itinerary.find(params[:itinerary_id])
           @place = Place.new
-          @itinerary.errors.messages[:selection] = ["Choose existing place or create a new one with both fields"]
+          @place.errors.messages[:selection] = ["Choose existing place or create a new one with both fields"]
           @current_user = current_user
           render :new
         end

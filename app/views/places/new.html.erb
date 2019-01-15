@@ -1,3 +1,6 @@
+<div class="background-image-place">
+
+<div class="places_new">
 <h2>Add existing or create new place for itinerary</h2>
 
 <% if @current_user.username != 'admin' %>
@@ -10,18 +13,6 @@
         <li><%= place.name  %></li>
       <% end %>
     </ul>
-    <% end %>
-
-    <% if @itinerary.errors.any? %>
-      <div id="error_explanation">
-        <h2>There were some errors:</h2>
-
-        <ul>
-          <% @itinerary.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
     <% end %>
 
 <% end %>
@@ -40,3 +31,6 @@
 
     <%= f.submit "Add site" %>
     <% end %>
+
+</div>
+</div>
