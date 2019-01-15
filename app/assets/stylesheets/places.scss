@@ -6,22 +6,32 @@
   // min-height: 100%;
   // min-width: 100%;
   // background-position:50% 50%;  /* Sets reference point to scale from */
-   background-size : 1250px;
+   background-size : 1760px;
   /* Set up proportionate scaling */
   // min-height: 1024px;
   // min-width: 1024px;
-
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
   /* Set up proportionate scaling */
-  width: 100%;
+  width: 120%;
   height: 1024px;
 
   /* Set up positioning */
-  position: fixed;
+  // position: fixed;
   top: 18px;
-  left: 0;
+  margin-left: -1%;
 
+
+}
+
+.background-image-place a {
+  text-decoration: none !important;
 }
 
 .places_new {
   margin-left: 30px;
+}
+
+.itin_show_add a {
+    text-decoration: none !important;
 }

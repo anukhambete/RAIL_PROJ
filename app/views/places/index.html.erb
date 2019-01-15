@@ -1,17 +1,40 @@
+<div class="background-image-place">
+
+<div class="places_new">
+
 <h1>List of places</h1>
-
-<table>
-<% @places.each do |place| unless @places.empty? %>
-  <tr><td><%= link_to place.name, place_path(place) %></td>  <td><%="Location:" unless place.address.nil? %> <%= place.address unless place.address.nil? %></td> <td><%= link_to "Edit place", edit_place_path(place) %></td> <td><%= link_to "Delete Place", place_path(place), :method=> :delete %></td></tr>
-<% end %>
-<% end %>
-</table>
-</br>
-
 
 <%= form_tag(places_path, method: :get) do %>
 <%= select_tag "borough", options_for_select(['All', 'Manhattan','Queens','Brooklyn','Bronx','Staten Island']) %>
 <%= submit_tag "View by borough" %>
 <% end %></br>
 
-<%= link_to "Add New Place", new_place_path %>
+<div class="places_index clearfix max-width-3">
+  <div class="col col-4"><h3>Name</h3></div>
+  <div class="col col-4 "><h3>Location</h3></div>
+
+  <% if current_user.username == 'admin' %>
+  <div class="col col-3 "><h3><%= link_to "Add New Place", new_place_path %></h3></div></br>
+  <% end %>
+
+<% @places.each do |place| unless @places.empty? %>
+  <div class="col col-4"><%= link_to place.name, place_path(place) %></div>
+  <div class="col col-3"><%= place.address unless place.address.nil? %></div>
+
+    <% if current_user.username == 'admin' %>
+    <div class="col col-2 "><%= link_to "Edit place", edit_place_path(place) %></div>
+    <div class="col col-2 "><%= link_to "Delete Place", place_path(place), :method=> :delete %></div>
+    <% else %>
+
+    <% end %>
+
+<% end %>
+<% end %>
+</div></br>
+
+
+
+
+<%= link_to "<< Return to Itineraries Index", itineraries_path %></br>
+</div>
+</div>

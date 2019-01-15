@@ -1,5 +1,5 @@
 <div class="background-image-itin">
-<h4><%= link_to "<< Return to Itineraries index", itineraries_path %></h4>
+
 
 <div class="itin_show">
 <h1>Itinerary Details<h1>
@@ -8,7 +8,15 @@
 <h2>Name: <%= @itinerary.name %> by <%= @itinerary.user.username %></h2>
 <h2>Description: <%= @itinerary.description %></h2>
 
-<h3>Places Visited</h3>
+<div class="itin_show_add clearfix max-width-4">
+<div class="col col-4 ">Places Visited</div>
+<% if @current_user == @itinerary.user %>
+<div class="col col-8 right-align"><%= link_to "Add places", new_itinerary_place_path(@itinerary) %>
+<%= link_to "Edit Itinerary", edit_itinerary_path(@itinerary) %>
+<%= link_to "Delete Itinerary", itinerary_path(@itinerary), :method=> :delete %></div>
+<% end %>
+</div>
+
 <% if !@itinerary.places.empty? %>
 <ul>
   <% @itinerary.places.each do |place| %>
@@ -18,9 +26,7 @@
 <% end %>
 
 
-<% if @current_user == @itinerary.user %>
-<p><%= link_to "Add places", new_itinerary_place_path(@itinerary) %> <%= link_to "Edit Itinerary", edit_itinerary_path(@itinerary) %> <%= link_to "Delete Itinerary", itinerary_path(@itinerary), :method=> :delete %></p>
-<% end %>
+
 
 <% if @current_user != @itinerary.user && !check_if_admin(@current_user) %>
 
@@ -36,6 +42,7 @@
   <p><%= @itinerary.likes.count %><%= @itinerary.likes.count == 1 ? " Like" : " Likes" %></p>
 <% end %>
 
+<h4><%= link_to "<< Return to Itineraries index", itineraries_path %></h4>
 </div>
 
 </div>

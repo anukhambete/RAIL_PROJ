@@ -1,7 +1,4 @@
 <div class="background-image-itin">
-<% if @current_user.username == 'admin'%>
-  <%= link_to "Places index", places_path %></br>
-<% end %>
 
 <div class="itin_index clearfix max-width-4">
 <h1>List of Itineraries</h1>
@@ -28,8 +25,5 @@
 <% end %>
 </div>
 
-<div class="footer_itin">
-<%= link_to "Create new Itinerary", new_itinerary_path %></br>
-</div>
 
 </div>
