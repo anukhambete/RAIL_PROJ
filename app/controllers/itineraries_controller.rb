@@ -6,7 +6,7 @@ before_action :current_user, only: [:new, :create, :show, :edit, :update, :destr
   def index
     if logged_in?
       # binding.pry
-      @itineraries = itin_ordered_list
+      @itineraries = Itinerary.itin_ordered_list
       @current_user = current_user
     else
       redirect_to new_user_path
@@ -134,21 +134,21 @@ before_action :current_user, only: [:new, :create, :show, :edit, :update, :destr
     end
   end
 
-  def itin_ordered_list
-
-    array = []
-    Itinerary.all.each do |itin|
-      array << {itin => itin.likes.count}
-    end
-    list = array.reduce Hash.new, :merge
-    list = list.sort_by {|_key, value| value}.reverse
-    temp = []
-    list.each do |obj|
-      temp << obj[0]
-    end
-    temp
-    # binding.pry
-  end
+  # def itin_ordered_list
+  #
+  #   array = []
+  #   Itinerary.all.each do |itin|
+  #     array << {itin => itin.likes.count}
+  #   end
+  #   list = array.reduce Hash.new, :merge
+  #   list = list.sort_by {|_key, value| value}.reverse
+  #   temp = []
+  #   list.each do |obj|
+  #     temp << obj[0]
+  #   end
+  #   temp
+  #   # binding.pry
+  # end
 
 
 end

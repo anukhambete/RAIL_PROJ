@@ -39,6 +39,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
 
   def new
     #if user is admin then allow path place_path(@place) after making place.new places/1
+    #binding.pry
     if check_if_admin
       @place = Place.new
       @current_user = current_user
@@ -47,6 +48,8 @@ before_action :check_if_admin!, only: [:edit, :destroy]
     elsif params[:itinerary_id] && !Itinerary.exists?(params[:itinerary_id])
       redirect_to itineraries_path, alert: "Itinerary not found."
       #msg alert saying access denied or itin not present
+    elsif params[:itinerary_id].nil? && !check_if_admin
+      redirect_to places_path
     else
       @place = Place.new
       @current_user = current_user
