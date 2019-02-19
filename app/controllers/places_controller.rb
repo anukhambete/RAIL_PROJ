@@ -39,7 +39,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
 
   def new
     #if user is admin then allow path place_path(@place) after making place.new places/1
-    #binding.pry
+
     if check_if_admin
       @place = Place.new
       @current_user = current_user
@@ -60,26 +60,23 @@ before_action :check_if_admin!, only: [:edit, :destroy]
   end
 
   def create
-    #binding.pry
+    ### admin can create a new place
     if current_user.username == 'admin'
       if params[:place][:name].empty? || params[:place][:address].empty?
         @place = Place.new(place_params)
         @place.save
         @current_user = current_user
-        #binding.pry
         render :new
       elsif !params[:place][:name].empty? && !params[:place][:address].empty?
-        #binding.pry
         @place = Place.find_or_create_by(name: proper_case(params[:place][:name]), address: params[:place][:address])
         redirect_to places_path
       end
     end
-
+    #nonn-admin users can create places only under itineraries
     if current_user.username != 'admin'
       @itinerary = Itinerary.find(params[:itinerary_id])
-      if correct_itin_user(@itinerary) #add current user is correct
+      if correct_itin_user(@itinerary) #add if current user is correct
         @itinerary = Itinerary.find(params[:itinerary_id])
-        #binding.pry
         method = user_create_number(params)
         if method == 1
           @place = Place.find(params[:place][:id])
@@ -97,7 +94,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
           render :new
         end
       else
-        redirect_to itineraries_path  
+        redirect_to itineraries_path
       end
     end
 
@@ -115,8 +112,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
   end
 
   def update
-    #binding.pry
-    #only admin can add address and edit name
+    ####only admin can add address and edit name
     @place = Place.find(params[:id])
     @place_existing = Place.find_by_name_address(params) unless !check_if_admin
     if @place.valid? && check_if_admin
@@ -125,15 +121,13 @@ before_action :check_if_admin!, only: [:edit, :destroy]
           @place.update(name: proper_case(params[:place][:name])) unless params[:place][:name].empty?
           @place.update(address: params[:place][:address]) unless params[:place][:address].empty?
         end
-        #binding.pry
         redirect_to places_path
       else
         @places = Place.all.order(:name, address: :asc)
         render :index
-        ######include flash message
       end
     elsif params.keys.include?("itinerary_id") && !check_if_admin
-      #regular user updates itinerary to exclude place
+      ####regular user updates itinerary to exclude place
       @itinerary = Itinerary.find(params[:itinerary_id])
       if !params[:itinerary_id].empty? && !params[:id].empty? && @itinerary.user == current_user
         # @itinerary = Itinerary.find(params[:itinerary_id])
@@ -145,14 +139,13 @@ before_action :check_if_admin!, only: [:edit, :destroy]
         redirect_to itineraries_path
       end
     else
-      redirect_to places_path, alert: "Place not found."
+      redirect_to places_path
     end
     #user removes place from own itinerary
 
   end
 
   def destroy
-    #binding.pry
     @place = Place.find(params[:id])
     @place.destroy
     redirect_to places_path
