@@ -23,24 +23,42 @@
     <p><li><%= link_to place.name, itinerary_place_path(@itinerary, place) %></p>
   <% end %>
 </ul>
+<% end %></br>
+
+
+<% if @current_user != @itinerary.user && !check_if_admin(@current_user) && !current_user_likes_itins(@current_user, @itinerary) %>
+
+<%= form_for [@itinerary, @like] do |f| %>
+
+<% if @current_user.username != 'admin' %>
+  <div class="field">
+  <%= f.label "Add rating" %>
+  <%= f.collection_select :rating, ['1','2','3','4','5'], :to_i, :to_i %></br></br>
+  </div>
 <% end %>
 
-
-
-
-<% if @current_user != @itinerary.user && !check_if_admin(@current_user) %>
-
-  <% if current_user_likes_itins(@current_user, @itinerary) && !@like.nil? %>
-    <%= button_to "Unlike post", like_path(@like.id), params: {'itin_id' => @itinerary.id}, :method=> :delete %>
-  <% else %>
-    <%= button_to "Like post", likes_path, params: {'itinerary_id' => @itinerary.id}, :method=> :post %>
-  <% end %>
-
+<%= f.submit "Add rating" %>
 <% end %>
 
-<% if !@itinerary.likes.empty? %>
-  <p><%= @itinerary.likes.count %><%= @itinerary.likes.count == 1 ? " Like" : " Likes" %></p>
+<% end %></br>
+
+<% if @current_user != @itinerary.user && !check_if_admin(@current_user) && current_user_likes_itins(@current_user, @itinerary) %>
+
+<%= form_for [@itinerary, @liked], :url => url_for(:controller => 'likes', :action => 'update') do |f| %>
+<h3>Your current rating is <%= @liked.rating %></h3>
+<% if @current_user.username != 'admin' %>
+  <div class="field">
+  <%= f.label "Change rating" %>
+  <%= f.collection_select :rating, ['1','2','3','4','5'], :to_i, :to_i %></br></br>
+  </div>
 <% end %>
+
+<%= f.submit "Change rating" %>
+<% end %></br>
+
+<%= button_to "Delete Rating", {:controller => :likes, :action => 'destroy', :id => @liked.id }, :method => :delete %>
+<% end %>
+
 
 <h4><%= link_to "<< Return to Itineraries index", itineraries_path %></h4>
 </div>

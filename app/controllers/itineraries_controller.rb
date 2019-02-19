@@ -23,7 +23,6 @@ before_action :current_user, only: [:new, :create, :show, :edit, :update, :destr
 
   def create
     #admin is not allowed to create new itineraries
-
     if @current_user.username != 'admin'
       @itinerary = Itinerary.new(itinerary_params, params[:user_id])
       if @itinerary.save
@@ -43,7 +42,15 @@ before_action :current_user, only: [:new, :create, :show, :edit, :update, :destr
     if @itinerary.nil?
       redirect_to itineraries_path
     else
-      @like = Like.find_by(user_id: @current_user.id, itinerary_id: @itinerary.id)
+      #binding.pry
+      if current_user_like_itins(current_user,@itinerary)
+        #binding.pry
+        @liked = Like.where(user_id: current_user.id,itinerary_id: @itinerary.id).first
+        #binding.pry
+      else
+        @like = Like.new
+      end
+      #@like = Like.find_by(user_id: @current_user.id, itinerary_id: @itinerary.id)
     end
   end
 
@@ -119,6 +126,13 @@ before_action :current_user, only: [:new, :create, :show, :edit, :update, :destr
     end
   end
 
-
+  def current_user_like_itins(user, itinerary)
+    arr =[]
+    user.likes.each do |like|
+      arr << like.itinerary_id
+      arr
+    end
+    arr.include?(itinerary.id) ? true : false
+  end
 
 end

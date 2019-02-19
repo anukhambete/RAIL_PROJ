@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :itineraries
   has_many :likes
-  has_many :places
+  has_many :liked_itineraries, through: :likes, source: :itinerary
+  #has_many :places
   has_many :places, through: :itineraries
 
   validates :email, presence: true
