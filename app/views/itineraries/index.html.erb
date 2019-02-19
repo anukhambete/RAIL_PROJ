@@ -16,9 +16,9 @@
   <div class="col col-4 "> by <%= itin.user.username %></div>
 
     <% if itin.likes.empty? %>
-    <div class="col col-4 "><%=  "NO likes yet"  %><%= itin.likes.count == 1 ? " Like" : " Likes" unless itin.likes.empty? %></div>
+    <div class="col col-4 "><%=  "NO ratings yet"  %><%= itin.likes.count == 1 ? " rating" : " ratings" unless itin.likes.empty? %></div>
     <% else %>
-    <div class="col col-4 "><%=  itin.likes.count  %><%= itin.likes.count == 1 ? " Like" : " Likes" unless itin.likes.empty? %></div>
+    <div class="col col-4 "><%=  ratings_average(itin)  %> star average <%=  itin.likes.count  %><%= itin.likes.count == 1 ? " rating" : " ratings" unless itin.likes.empty? %></div>
     <% end %>
 
 <% end %>
