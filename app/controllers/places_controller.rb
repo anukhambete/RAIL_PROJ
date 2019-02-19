@@ -31,7 +31,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
       @place = Place.find(params[:id])
       @current_user = current_user
     else
-      redirect_to places_path, alert: "Place not found."
+      redirect_to places_path
       #add alert message
     end
   end
@@ -106,7 +106,7 @@ before_action :check_if_admin!, only: [:edit, :destroy]
     if !@place.nil?
       @place = Place.find(params[:id])
     else
-      redirect_to places_path, alert: "Place not found."
+      redirect_to places_path
       #add alert message
     end
   end
