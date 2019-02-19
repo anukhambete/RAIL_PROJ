@@ -7,6 +7,8 @@ class Place < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { scope: :address,
     message: "one location per borough" }
   validates :address, presence: true
+  scope :boro, ->(add) { where("address = ?", add)}
+  scope :ordlist, -> { order("name").order("address")}
   scope :manhattan, -> { where(address: 'Manhattan') }
   scope :queens, -> { where(address: 'Queens') }
   scope :statenisland, -> { where(address: 'Staten Island') }
