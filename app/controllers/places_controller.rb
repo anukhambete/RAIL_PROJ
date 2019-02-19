@@ -3,14 +3,14 @@ class PlacesController < ApplicationController
 before_action :check_if_admin!, only: [:edit, :destroy]
 
   def index
-    #binding.pry
     if params.keys.include?("borough")
-      #binding.pry
-      if params[:borough] == "All"
-        @places = Place.all.ordlist
-      else
-        @places = Place.boro(params[:borough]).ordlist
-      end
+      params[:borough] != "All" ? @places = Place.boro(params[:borough]).ordlist : @places = Place.all.ordlist
+      # 
+      # if params[:borough] != "All"
+      #   @places = Place.all.ordlist
+      # else
+      #   @places = Place.boro(params[:borough]).ordlist
+      # end
     else
       @places = Place.all.ordlist
     end
