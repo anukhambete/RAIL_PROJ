@@ -72,16 +72,6 @@ before_action :check_if_admin!, only: [:edit, :destroy]
         #binding.pry
         @place = Place.find_or_create_by(name: proper_case(params[:place][:name]), address: params[:place][:address])
         redirect_to places_path
-        # @place = Place.find_by_name_address(params)
-        # if @place.nil?
-        #   @places = Place.all
-        #   render :index
-        #   #add alert message saying place already exists
-        # elsif !@place.nil?
-        #   #binding.pry
-        #   @place = Place.find_or_create_by(name: proper_case(params[:place][:name]), address: params[:place][:address])
-        #   redirect_to places_path
-        # end
       end
     end
 
@@ -106,47 +96,11 @@ before_action :check_if_admin!, only: [:edit, :destroy]
           @current_user = current_user
           render :new
         end
+      else
+        redirect_to itineraries_path  
       end
     end
 
-    #   if (params[:place].keys.include?('id') && params[:place][:id].empty?) && (params[:place][:name].empty?||params[:place][:address].empty?) && correct_itin_user(@itinerary)
-    #     #creating a new place with errors when address and name are not given and blank
-    #     @itinerary = Itinerary.find(params[:itinerary_id])
-    #     @place = Place.new(place_params)
-    #     @place.save
-    #     @current_user = current_user
-    #     render :new
-    #   elsif !params[:place][:id].empty? && (!params[:place][:name].empty?||!params[:place][:address].empty?)
-    #     # asking user to pick only from selection or to add name and address -- add falsh message instead
-    #     @itinerary = Itinerary.find(params[:itinerary_id])
-    #     @place = Place.new
-    #     @itinerary.errors.messages[:selection] = ["Choose existing place or create a new one with both fields"]
-    #     @current_user = current_user
-    #     render :new
-    #
-    #   elsif !params[:place][:id].empty? && (params[:place][:name].empty? && params[:place][:address].empty?) && correct_itin_user(@itinerary)
-    #     #creating a new place when only params[:place][:id] is given
-    #
-    #     @place = Place.find(params[:place][:id])
-    #     #binding.pry
-    #     place_itin_association(params,@place)
-    #     redirect_to itinerary_path(@itinerary)
-    #   elsif !params[:place][:name].empty? && !params[:place][:address].empty? && correct_itin_user(@itinerary)
-    #     #creating a new place when name and address are not blank
-    #     #binding.pry
-    #     @place = Place.find_by_name_address(params)
-    #     if @place.empty?
-    #       #binding.pry
-    #       @place = Place.new(name: proper_case(params[:place][:name]), address: params[:place][:address])
-    #       place_itin_association(params,@place)
-    #       redirect_to itinerary_path(@itinerary)
-    #     elsif !@place.empty?
-    #       #binding.pry
-    #       place_itin_association(params,@place.first)
-    #       redirect_to itinerary_path(@itinerary)
-    #     end
-    #   end
-    # end
 
   end
 

@@ -26,7 +26,7 @@ class SessionsController < ApplicationController
       u.username = auth['info']['name'] unless u.username != nil
       u.password = "facebooklogin" unless u.password != nil
     end
-    #binding.pry
+
     if @user.save
       session[:user_id] = @user.id
       #binding.pry

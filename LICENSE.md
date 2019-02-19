@@ -1,18 +1,3 @@
-== README
-
-This application is meant for users to log and suggest itineraries in New York City and add a list of places that they've Visited
-
-To install
--Copy the address for github
--Enter git clone and the copied address in the terminal
--Enter bundle install
--Run db:migrate
--Enter rails s to start the server
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-
 #Learn.co Educational Content License
 
 Copyright (c) 2015 Flatiron School, Inc
@@ -20,26 +5,3 @@ Copyright (c) 2015 Flatiron School, Inc
 The Flatiron School, Inc. owns this Educational Content. However, the Flatiron School supports the development and availability of educational materials in the public domain. Therefore, the Flatiron School grants Users of the Flatiron Educational Content set forth in this repository certain rights to reuse, build upon and share such Educational Content subject to the terms of the Educational Content License set forth here (http://learn.co/content-license). You must read carefully the terms and conditions contained in the Educational Content License as such terms govern access to and use of the Educational Content.
 
 Flatiron School is willing to allow you access to and use of the Educational Content only on the condition that you accept all of the terms and conditions contained in the Educational Content License set forth here (http://learn.co/content-license). By accessing and/or using the Educational Content, you are agreeing to all of the terms and conditions contained in the Educational Content License. If you do not agree to any or all of the terms of the Educational Content License, you are prohibited from accessing, reviewing or using in any way the Educational Content.
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.

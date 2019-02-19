@@ -24,6 +24,7 @@ before_action :current_user, only: [:new, :create, :show, :edit, :update, :destr
 
   def create
     #admin is not allowed to create new itineraries
+    #binding.pry
     if @current_user.username != 'admin'
       @itinerary = Itinerary.new(itinerary_params, params[:user_id])
       if @itinerary.save
@@ -108,17 +109,17 @@ before_action :current_user, only: [:new, :create, :show, :edit, :update, :destr
 
     if @user == @itinerary.user
       if params[:itinerary][:name].empty? && params[:itinerary][:description].empty?
-        @user =  User.find(session[:user_id])
-        @itinerary = Itinerary.find(params[:id])
+        #@user =  User.find(session[:user_id])
+        #@itinerary = Itinerary.find(params[:id])
         @itinerary.errors.messages[:name] = ["Cannot leave name blank"]
         @itinerary.errors.messages[:description] = ["Cannot leave description blank"]
       elsif params[:itinerary][:name].empty?
-        @user =  User.find(session[:user_id])
-        @itinerary = Itinerary.find(params[:id])
+        #@user =  User.find(session[:user_id])
+        #@itinerary = Itinerary.find(params[:id])
         @itinerary.errors.messages[:name] = ["Cannot leave name blank"]
       elsif params[:itinerary][:description].empty?
-        @user =  User.find(session[:user_id])
-        @itinerary = Itinerary.find(params[:id])
+        #@user =  User.find(session[:user_id])
+        #@itinerary = Itinerary.find(params[:id])
         @itinerary.errors.messages[:description] = ["Cannot leave description blank"]
       end
     end
